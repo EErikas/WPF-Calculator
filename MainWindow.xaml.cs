@@ -99,7 +99,7 @@ namespace Calculator
                             }
                             else
                             {
-
+                                MessageBox.Show("Illeagal Operation: Division by Zero!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                             }
                             break;
                         default:
