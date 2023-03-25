@@ -1,8 +1,5 @@
 name: Publish Calculator App
-on:
-  push:
-    tags:
-      - "v*"
+on: [push]
 
 jobs:
   deploy:
@@ -32,8 +29,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: Release-${{ github.ref }}
-          release_name: Calculator-${{ github.ref_name }}
+          tag_name: v0.${{ github.run_number }}
+          release_name: Calculator-${{ github.run_number }}
           draft: false
           prerelease: false
 
