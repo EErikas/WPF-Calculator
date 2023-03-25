@@ -6,6 +6,7 @@ on:
 
 jobs:
   build:
+    name: Build and Publish the Calculator Application
     runs-on: windows-latest
     permissions:
       contents: write
@@ -20,12 +21,8 @@ jobs:
 
       - name: Build and Publish Project
         run: dotnet publish -c Release --self-contained -r win-x64 -p:PublishSingleFile=true
-      # - name: Upload .exe as artifact
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: Calculator.exe
-      #     path: bin/Release/netcoreapp3.1/win-x64/publish/Calculator.exe
-      - name: Release
+
+      - name: Create Release
         uses: ncipollo/release-action@v1
         with:
           artifacts: bin/Release/netcoreapp3.1/win-x64/publish/Calculator.exe
