@@ -31,19 +31,15 @@ jobs:
       #   with:
       #     files: bin/Release/netcoreapp3.1/win-x64/publish/Calculator.exe
   
-  publish:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Calculator-${{ github.ref_name }}
-          draft: false
-          prerelease: false
+  # publish:
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: write
+  #   steps:
+  #   - uses: actions/checkout@v2
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "Calculator.exe"
 
       # - name: Upload Release Asset
       #   id: upload-release-asset 
