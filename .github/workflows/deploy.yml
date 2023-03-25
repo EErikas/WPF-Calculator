@@ -1,5 +1,8 @@
 name: Publish Calculator App
-on: [push]
+on:
+  push:
+    tags:
+      - "v*"
 
 jobs:
   deploy:
@@ -17,30 +20,34 @@ jobs:
       - name: Build and Publish Project
         run: dotnet publish -c Release --self-contained -r win-x64 -p:PublishSingleFile=true
 
-      - name: Upload .exe as artifact
-        uses: actions/upload-artifact@v2
+      # - name: Upload .exe as artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: Calculator.exe
+      #     path: bin/Release/netcoreapp3.1/win-x64/publish/Calculator.exe
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          name: Calculator.exe
-          path: bin/Release/netcoreapp3.1/win-x64/publish/Calculator.exe
+          files: bin/Release/netcoreapp3.1/win-x64/publish/Calculator.exe
+      # - name: Create Release
+      #   id: create_release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: Release-${{ github.ref }}
+      #     release_name: Calculator-${{ github.ref_name }}
+      #     draft: false
+      #     prerelease: false
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v0.${{ github.run_number }}
-          release_name: Calculator-${{ github.run_number }}
-          draft: false
-          prerelease: false
-
-      - name: Upload Release Asset
-        id: upload-release-asset 
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} 
-          asset_path: Calculator.exe
-          asset_name: Calculator-${{ github.ref_name }}.exe
-          asset_content_type: application/exe
+      # - name: Upload Release Asset
+      #   id: upload-release-asset 
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }} 
+      #     asset_path: Calculator.exe
+      #     asset_name: Calculator-${{ github.ref_name }}.exe
+      #     asset_content_type: application/exe
