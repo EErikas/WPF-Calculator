@@ -50,12 +50,14 @@ namespace Calculator
             {
                 HandleNumberInput(lastChar.ToString());
             }
+            // Add decimal point if comma, period or NumPad decimal is pressed
             if (strKey == "OemPeriod" || strKey == "OemComma" || strKey == "Decimal")
             {
                 AddDecimal();
             }
 
         }
+        // Number Button Click Handler:
         private void NumberButtonClick(object sender, RoutedEventArgs e)
         {
             string buttonValue = ((Button)sender).Content.ToString();
@@ -75,7 +77,7 @@ namespace Calculator
                 double result = new double();
                 double num1 = new double();
                 double num2 = new double();
-
+                // Try Parsing Numbers from string to double InvariantCulture is used so that the results would be uniform on any localization machine
                 bool num1IsValid = double.TryParse(number1, NumberStyles.Any, CultureInfo.InvariantCulture, out num1);
                 bool num2IsValid = double.TryParse(number2, NumberStyles.Any, CultureInfo.InvariantCulture, out num2);
 
